@@ -25,7 +25,7 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-global $capsman, $cme_cap_helper;
+global $capsman, $cme_cap_helper, $current_user;
 
 $roles = $this->roles;
 $default = $this->current;
@@ -572,9 +572,10 @@ if( defined('PRESSPERMIT_ACTIVE') ) {
 				foreach ( $this->capabilities as $cap_name => $cap ) :
 					if ( isset( $type_caps[$cap_name] ) || isset($core_caps[$cap_name]) )
 						continue;
-				
-					if ( ! $is_administrator && ! current_user_can($cap_name) )
+					
+					if ( ! $is_administrator && empty( $current_user->allcaps[$cap_name] ) ) {
 						continue;
+					}
 				
 					// ============ End Kevin B mod ===============
 				

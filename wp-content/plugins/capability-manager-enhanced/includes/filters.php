@@ -26,6 +26,14 @@ if ( defined( 'WC_PLUGIN_FILE' ) ) {
 	$cme_extensions->add( new CME_WooCommerce() );
 }
 
+if ( is_admin() ) {
+	global $pagenow;
+	if ( 'edit.php' == $pagenow ) {
+		require_once ( dirname(__FILE__) . '/filters-admin.php' );
+		new CME_AdminMenuNoPrivWorkaround();
+	}
+}
+
 // allow edit_terms, delete_terms, assign_terms capabilities to function separately from manage_terms
 function _cme_remap_term_meta_cap ( $caps, $cap, $user_id, $args ) {
 	global $current_user, $cme_cap_helper;
